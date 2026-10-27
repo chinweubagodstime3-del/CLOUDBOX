@@ -1,13 +1,29 @@
 
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";
 import Dashboard from "./pages/Dashboard";
+import Auth from "./pages/Auth";
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const goToAuth = (mode) => {
+    navigate("/auth", { state: { mode } });
+  };
+
   return (
     <div className="cloudbox">
       <nav className="navbar">
-        <a href="#" className="logo">
+        <a href="/" className="logo">
           <span className="logo-icon">☁</span>
           CloudBox
         </a>
@@ -19,8 +35,19 @@ function HomePage() {
         </div>
 
         <div className="nav-actions">
-          <button className="login-btn">Log in</button>
-          <button className="signup-btn">Get Started</button>
+          <button
+            className="login-btn"
+            onClick={() => goToAuth("login")}
+          >
+            Log in
+          </button>
+
+          <button
+            className="signup-btn"
+            onClick={() => goToAuth("signup")}
+          >
+            Get Started
+          </button>
         </div>
       </nav>
 
@@ -44,11 +71,21 @@ function HomePage() {
             </p>
 
             <div className="hero-buttons">
-              <button className="primary-btn">
+              <button
+                className="primary-btn"
+                onClick={() => goToAuth("signup")}
+              >
                 Get started free <span>→</span>
               </button>
 
-              <button className="secondary-btn">
+              <button
+                className="secondary-btn"
+                onClick={() =>
+                  document
+                    .getElementById("features")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
                 Explore features
               </button>
             </div>
@@ -70,7 +107,6 @@ function HomePage() {
                   <span></span>
                   <span></span>
                 </div>
-
                 <span className="window-title">My Workspace</span>
                 <span className="window-menu">•••</span>
               </div>
@@ -97,7 +133,9 @@ function HomePage() {
                     <div className="storage-icon">☁</div>
                     <div>
                       <p>Storage used</p>
-                      <h3>6.8 GB <span>of 15 GB</span></h3>
+                      <h3>
+                        6.8 GB <span>of 15 GB</span>
+                      </h3>
                     </div>
                     <span className="storage-percent">45%</span>
                     <div className="storage-bar">
@@ -160,9 +198,7 @@ function HomePage() {
         <section id="features" className="features-section">
           <span className="section-label">MADE FOR YOUR WORKFLOW</span>
           <h2>Everything in its right place.</h2>
-          <p>
-            Spend less time searching and more time doing what matters.
-          </p>
+          <p>Spend less time searching and more time doing what matters.</p>
         </section>
 
         <section id="pricing" className="features-section">
@@ -174,14 +210,12 @@ function HomePage() {
         <section id="about" className="features-section">
           <span className="section-label">ABOUT CLOUDBOX</span>
           <h2>Your work, all together.</h2>
-          <p>
-            One workspace to keep your files organized and easy to find.
-          </p>
+          <p>One workspace to keep your files organized and easy to find.</p>
         </section>
       </main>
 
       <footer className="footer">
-        <a href="#" className="logo">
+        <a href="/" className="logo">
           <span className="logo-icon">☁</span>
           CloudBox
         </a>
@@ -192,12 +226,37 @@ function HomePage() {
   );
 }
 
+function ProtectedDashboard() {
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
+
+  if (user === undefined) {
+    return <p>Checking your account...</p>;
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  return <Dashboard />;
+}
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route
+          path="/dashboard"
+          element={<ProtectedDashboard />}
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

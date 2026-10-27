@@ -4,8 +4,10 @@
   display: flex;
   background: #090b17;
   color: #f4f5ff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
+
+/* Sidebar */
 
 .sidebar {
   width: 245px;
@@ -21,6 +23,7 @@
   color: #f4f5ff;
   font-size: 23px;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .dashboard-logo:first-letter {
@@ -41,18 +44,31 @@
   gap: 8px;
 }
 
-.sidebar-nav a {
+.sidebar-nav a,
+.sidebar-nav button {
+  width: 100%;
   padding: 13px;
+  border: 0;
   border-radius: 9px;
+  background: transparent;
   color: #a6aec5;
+  font-family: inherit;
   font-size: 13px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sidebar-nav a:hover,
-.sidebar-nav a.selected {
+.sidebar-nav a.selected,
+.sidebar-nav button:hover,
+.sidebar-nav button.selected {
   background: #8b5cf61c;
   color: #b9a6ff;
 }
+
+/* Storage and logout */
 
 .sidebar-bottom {
   margin-top: auto;
@@ -75,10 +91,10 @@
 }
 
 .dashboard-storage-bar div {
-  width: 45%;
   height: 100%;
   border-radius: 10px;
   background: linear-gradient(90deg, #8b5cf6, #60a5fa);
+  transition: width 0.3s ease;
 }
 
 .sidebar-bottom p {
@@ -95,7 +111,14 @@
   background: transparent;
   color: #fca5a5;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
+
+.sidebar-bottom button:hover {
+  background: #f8717112;
+}
+
+/* Main content */
 
 .dashboard-content {
   flex: 1;
@@ -140,6 +163,8 @@
   font-weight: 700;
 }
 
+/* Welcome banner */
+
 .dashboard-welcome {
   padding: 30px;
   display: flex;
@@ -172,6 +197,8 @@
   font-size: 55px;
 }
 
+/* Statistics */
+
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -180,10 +207,17 @@
 }
 
 .stat-card {
+  min-width: 0;
   padding: 22px;
   border: 1px solid #ffffff12;
   border-radius: 14px;
   background: #111426;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: #8b5cf640;
 }
 
 .stat-icon {
@@ -218,12 +252,15 @@
 .stat-card h2 {
   margin: 0 0 8px;
   font-size: 28px;
+  overflow-wrap: anywhere;
 }
 
 .stat-card > span {
   color: #828ba5;
   font-size: 10px;
 }
+
+/* File section */
 
 .files-section {
   padding: 25px;
@@ -249,15 +286,63 @@
   font-size: 12px;
 }
 
+/* Upload button */
+
 .upload-button {
   padding: 12px 16px;
   border: 0;
   border-radius: 9px;
-  background: #8065ed;
+  background: linear-gradient(135deg, #8065ed, #6948d9);
   color: white;
+  font-family: inherit;
   font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px #8065ed35;
+}
+
+.upload-button:focus-visible,
+.file-action:focus-visible,
+.sidebar-nav button:focus-visible {
+  outline: 2px solid #b8a4ff;
+  outline-offset: 3px;
+}
+
+/* File search */
+
+.file-search {
+  margin-top: 24px;
+}
+
+.file-search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  border: 1px solid #ffffff17;
+  border-radius: 10px;
+  outline: none;
+  background: #090b17;
+  color: #f4f5ff;
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-search input::placeholder {
+  color: #737c99;
+}
+
+.file-search input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px #8b5cf620;
+}
+
+/* Empty state */
 
 .empty-files {
   padding: 45px 15px;
@@ -283,10 +368,103 @@
 
 .empty-files p {
   max-width: 330px;
-  margin: auto;
+  margin: 0 auto 18px;
   color: #929bb3;
   font-size: 12px;
   line-height: 1.8;
+}
+
+/* Uploaded file list */
+
+.uploaded-files {
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+}
+
+.uploaded-file {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 15px 0;
+  border-bottom: 1px solid #ffffff10;
+}
+
+.uploaded-file:last-child {
+  border-bottom: 0;
+}
+
+.uploaded-file-icon {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #8b5cf630;
+  border-radius: 10px;
+  background: #8b5cf615;
+  color: #b8a4ff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.uploaded-file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.uploaded-file-info strong {
+  display: block;
+  overflow: hidden;
+  color: #f4f5ff;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uploaded-file-info p {
+  margin: 6px 0 0;
+  color: #828ba5;
+  font-size: 11px;
+}
+
+.file-action {
+  flex-shrink: 0;
+  padding: 8px 10px;
+  border: 1px solid #ffffff16;
+  border-radius: 7px;
+  background: transparent;
+  color: #c5cbe0;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.file-action:hover {
+  background: #8b5cf61c;
+  color: #c4b5fd;
+}
+
+.file-action:first-of-type {
+  color: #c4b5fd;
+}
+
+/* Responsive layout */
+
+@media (max-width: 1000px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .uploaded-file {
+    flex-wrap: wrap;
+  }
+
+  .uploaded-file-info {
+    flex-basis: calc(100% - 65px);
+  }
 }
 
 @media (max-width: 850px) {
@@ -310,6 +488,7 @@
   }
 
   .sidebar {
+    box-sizing: border-box;
     width: 100%;
     padding: 20px;
   }
@@ -332,6 +511,22 @@
     padding: 22px 15px;
   }
 
+  .dashboard-topbar {
+    align-items: flex-start;
+  }
+
+  .dashboard-topbar h1 {
+    font-size: 25px;
+  }
+
+  .dashboard-user {
+    gap: 7px;
+  }
+
+  .dashboard-user > span {
+    display: none;
+  }
+
   .dashboard-welcome {
     padding: 22px;
   }
@@ -344,8 +539,295 @@
     font-size: 38px;
   }
 
+  .files-section {
+    padding: 18px 14px;
+  }
+
   .files-heading {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .uploaded-file {
+    gap: 9px;
+  }
+
+  .uploaded-file-info {
+    flex-basis: calc(100% - 55px);
+  }
+
+  .file-action {
+    padding: 8px;
+  }
+}
+
+/* ================================
+   CLOUDBOX FOLDER CONTROLS
+================================ */
+
+.folder-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 24px 0 18px;
+  padding: 18px;
+  background: #151521;
+  border: 1px solid #29293a;
+  border-radius: 14px;
+}
+
+.create-folder-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.create-folder-form input,
+.folder-filter select,
+.file-folder-select {
+  min-height: 42px;
+  padding: 10px 13px;
+  color: #f4f4fb;
+  background: #202031;
+  border: 1px solid #35354a;
+  border-radius: 9px;
+  font: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.create-folder-form input {
+  flex: 1;
+  min-width: 0;
+}
+
+.create-folder-form input::placeholder {
+  color: #9292a8;
+}
+
+.create-folder-form input:focus,
+.folder-filter select:focus,
+.file-folder-select:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgb(139 92 246 / 15%);
+}
+
+.create-folder-form button {
+  min-height: 42px;
+  padding: 10px 16px;
+  color: #fff;
+  background: #7653e8;
+  border: none;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.create-folder-form button:hover {
+  background: #8b6cf0;
+  transform: translateY(-1px);
+}
+
+.folder-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #b7b7cb;
+  font-size: 14px;
+}
+
+.folder-filter select {
+  min-width: 145px;
+  cursor: pointer;
+}
+
+.file-folder-select {
+  max-width: 150px;
+  min-width: 110px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.file-folder-select option,
+.folder-filter select option {
+  color: #f4f4fb;
+  background: #202031;
+}
+
+/* Smooth interaction for file actions */
+
+.file-action {
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.file-action:hover {
+  color: #a78bfa;
+}
+
+/* ================================
+   MOBILE RESPONSIVENESS
+================================ */
+
+@media (max-width: 768px) {
+  .folder-tools {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .create-folder-form {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .create-folder-form button {
+    padding: 10px 12px;
+  }
+
+  .folder-filter {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .folder-filter select {
+    width: 100%;
+  }
+
+  .file-folder-select {
+    width: 100%;
+    max-width: none;
+  }
+
+  .uploaded-file {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .uploaded-file-info {
+    flex: 1;
+    min-width: 120px;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-folder-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .create-folder-form input,
+  .create-folder-form button {
+    width: 100%;
+  }
+}
+
+/* Folder grid */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.folder-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px;
+  background: #151521;
+  border: 1px solid #29293a;
+  border-radius: 14px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.folder-card:hover {
+  border-color: #7653e8;
+  transform: translateY(-2px);
+}
+
+.folder-card-icon {
+  font-size: 30px;
+}
+
+.folder-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.folder-card-info strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #f4f4fb;
+}
+
+.folder-card-info p {
+  margin: 5px 0 0;
+  color: #9292a8;
+  font-size: 13px;
+}
+
+.folder-open-button {
+  padding: 9px 13px;
+  color: #fff;
+  background: #7653e8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.folder-open-button:hover {
+  background: #8b6cf0;
+}
+
+@media (max-width: 480px) {
+  .folder-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.folder-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.folder-delete-button {
+  padding: 8px 12px;
+  border: 1px solid #e5b5b5;
+  border-radius: 8px;
+  background: #fff5f5;
+  color: #b42318;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.folder-delete-button:hover {
+  background: #ffe4e4;
+}
+
+.folder-delete-button:focus-visible {
+  outline: 2px solid #b42318;
+  outline-offset: 2px;
 }
